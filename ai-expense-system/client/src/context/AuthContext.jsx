@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import axios from 'axios';
+import API from '../api'; // ✅ use your API instance
 
 export const AuthContext = createContext();
 
@@ -7,26 +7,37 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
 
-  // Configure Axios defaults
-  axios.defaults.baseURL = 'http://localhost:5000/api';
+  // ✅ Attach token to every request
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
-    delete axios.defaults.headers.common['Authorization'];
+    delete API.defaults.headers.common['Authorization'];
   }
 
   const login = async (email, password) => {
-    const res = await axios.post('/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    setToken(res.data.token);
-    setUser(res.data.user);
+    try {
+      const res = await API.post('/auth/login', { email, password }); // ✅ fixed
+
+      localStorage.setItem('token', res.data.token);
+      setToken(res.data.token);
+      setUser(res.data.user);
+
+    } catch (err) {
+      throw err;
+    }
   };
 
   const signup = async (data) => {
-    const res = await axios.post('/auth/signup', data);
-    localStorage.setItem('token', res.data.token);
-    setToken(res.data.token);
-    setUser(res.data.user);
+    try {
+      const res = await API.post('/auth/signup', data); // ✅ fixed
+
+      localStorage.setItem('token', res.data.token);
+      setToken(res.data.token);
+      setUser(res.data.user);
+
+    } catch (err) {
+      throw err;
+    }
   };
 
   const logout = () => {
