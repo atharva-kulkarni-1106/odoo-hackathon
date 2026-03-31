@@ -9,23 +9,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const { MongoMemoryServer } = require('mongodb-memory-server');
-
 const PORT = process.env.PORT || 5000;
 
-// Connect to In-Memory MongoDB for seamless Hackathon demo (No installation required)
+// Connect to MongoDB Atlas (REAL database)
 const connectDB = async () => {
   try {
-    const mongoServer = await MongoMemoryServer.create();
-    const uri = mongoServer.getUri();
-    await mongoose.connect(uri);
-    console.log(`\n✅ In-Memory MongoDB Connected successfully at: ${uri}`);
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected");
   } catch (err) {
-    console.error('MongoDB Connection Error:', err);
+    console.error("MongoDB Connection Error:", err);
   }
 };
 
 connectDB();
+
 
 // Basic route
 app.get('/api/health', (req, res) => {
