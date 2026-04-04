@@ -37,3 +37,8 @@ Once the environment initializes on `localhost`, click the **"Demo Initializatio
 *   **Admin/Finance**: `admin@company.com` | `password`
 *   **Manager**: `manager@company.com` | `password`
 *   **Employee**: `employee@company.com` | `password`
+*   
+
+
+
+Deployed Link : https://odoo-hackathon-cpdrewugl-atharvak338-gmailcoms-projects.vercel.app/
